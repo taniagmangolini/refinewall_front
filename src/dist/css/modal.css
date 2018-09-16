@@ -1,0 +1,60 @@
+.modal {
+    overflow: auto !important;
+}
+
+.modal-box select,
+.modal-box input,
+.modal-box td,
+.modal-box button {
+    font-size: 0.9em;
+}
+
+.modal-box th {
+    font-size: 1em;
+}
+
+.modal-box button.add {
+    padding-left: 38px;
+}
+
+.modal-box .icon {
+    margin-right: 10px;
+    font-size: 1.4em;
+    cursor: pointer;
+}
+
+.modal-box .icon.trash {
+    color: red;
+}
+
+.modal-box .icon.add {
+    color: white;
+    margin-top: 2px;
+    margin-left: -25px;
+    font-size: 1.4em;
+    position: absolute;
+}
+
+.modal-box .modal-body,
+.modal-box .modal-header,
+.modal-box .modal-footer{
+    background-color: #cccc;
+}
+
+@media (min-width: 320px) {
+  .modal-dialog {
+    max-width: 99% !important;
+  }  
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 85% !important;
+  }  
+}
+
+@media (min-width: 960px) {
+  .modal-dialog {
+    max-width: 650px !important;
+  }  
+}

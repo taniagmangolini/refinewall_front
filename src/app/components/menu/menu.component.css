@@ -1,0 +1,39 @@
+#menu #icon { font-size: 1em; } 
+
+/* home */
+#menu #icon.evento { color: #44A88D; }
+#menu #icon.banco { color: #404A91; }
+#menu #icon.loja { color: #AF4DA9; }
+#menu #icon.contato { color: #709140; }
+
+#menu .logo{
+    height: 25vh;
+}
+
+#menu .text {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #666;
+} 
+
+#menu .box-item{
+    padding: 20px;
+}
+
+#menu .menu-link {
+    width: 100%;
+    padding-top: 5px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    
+    -webkit-box-shadow: 0px 3px 5px -1px rgba(158,152,158,1);
+    -moz-box-shadow: 0px 3px 5px -1px rgba(158,152,158,1);
+    box-shadow: 0px 3px 5px -1px rgba(158,152,158,1);
+}
+
+#menu .menu-link:hover {
+    -webkit-box-shadow: 0px 12px 30px 2px rgba(158,152,158,1);
+    -moz-box-shadow: 0px 12px 30px 2px rgba(158,152,158,1);
+    box-shadow: 0px 8px 30px 2px rgba(158,152,158,1);
+}

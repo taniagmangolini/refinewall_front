@@ -1,0 +1,23 @@
+header.masthead {
+  position: relative;
+  background-color: #343a40;
+  background: url("assets/bg-sugarcane.jpg") no-repeat center center;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.result {
+  background-color: white;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.search-radio {
+  color: black;
+  background-color: white;
+  margin: 1rem;
+
+}
+
+

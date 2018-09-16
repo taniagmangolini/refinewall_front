@@ -1,0 +1,76 @@
+{
+  "_from": "angular2-tinymce",
+  "_id": "angular2-tinymce@2.1.2",
+  "_inBundle": false,
+  "_integrity": "sha1-HqcW4Qx+DvwPLix3NR5aCQFWhLc=",
+  "_location": "/angular2-tinymce",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "angular2-tinymce",
+    "name": "angular2-tinymce",
+    "escapedName": "angular2-tinymce",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular2-tinymce/-/angular2-tinymce-2.1.2.tgz",
+  "_shasum": "1ea716e10c7e0efc0f2e2c77351e5a09015684b7",
+  "_spec": "angular2-tinymce",
+  "_where": "C:\\Users\\tmangolini\\git\\prova",
+  "author": {
+    "name": "Ledzz"
+  },
+  "bugs": {
+    "url": "https://github.com/Ledzz/angular2-tinymce/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "tinymce": "^4.5.6"
+  },
+  "deprecated": false,
+  "description": "Angular component for TinyMCE MCE WYSIWYG editor",
+  "devDependencies": {
+    "@angular/common": "^4.0.1",
+    "@angular/compiler": "^4.0.1",
+    "@angular/compiler-cli": "^4.0.1",
+    "@angular/core": "^4.0.1",
+    "@angular/forms": "^4.0.1",
+    "@angular/platform-browser": "^4.0.1",
+    "@angular/platform-server": "^4.0.1",
+    "rimraf": "^2.6.1",
+    "rxjs": "^5.2.0",
+    "typescript": "^2.2.2",
+    "zone.js": "^0.8.5"
+  },
+  "homepage": "https://github.com/Ledzz/angular2-tinymce#readme",
+  "keywords": [
+    "angular4",
+    "angular2",
+    "angular",
+    "component",
+    "module",
+    "tinymce",
+    "wysiwyg",
+    "form-control",
+    "ng-model"
+  ],
+  "license": "ISC",
+  "main": "dist/index.js",
+  "name": "angular2-tinymce",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ledzz/angular2-tinymce.git"
+  },
+  "scripts": {
+    "build": "ngc -p ./tsconfig.json && tsc -p ./tsconfig.json",
+    "prebuild": "rimraf ./dist ./compiled && mkdir dist"
+  },
+  "typings": "dist/index.d.ts",
+  "version": "2.1.2"
+}
