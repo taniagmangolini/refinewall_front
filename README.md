@@ -27,6 +27,4 @@ $ npm install
 $ ng serve
 ```
 
-3. E enfim, visualize a aplicação rodando no browser acessando o a URL http://localhost:4200
-
-# QUEBRA TUDO
+3. URL http://localhost:4200
