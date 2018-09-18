@@ -20,6 +20,8 @@ import { UtilService } from './services/util.service';
 
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import {PopoverModule} from 'ng2-popover';
+import { NguiTabModule } from '@ngui/tab';
+import {DataTableModule} from "angular2-datatable";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import {PopoverModule} from 'ng2-popover';
     AsyncLocalStorageModule,
     BrowserModule, 
     NgxPaginationModule,
-    PopoverModule
+    PopoverModule,
+    NguiTabModule,
+    DataTableModule
   ],
   providers: [
     UtilService
