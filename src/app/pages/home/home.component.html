@@ -53,6 +53,7 @@
       <section class="result">
           <div class="container">
               <div class="row">
+                <div class="col-12 col-md-12">
                 <ngui-tab
                   selected="js"
                   selected-index-class="selected"
@@ -75,7 +76,7 @@
                               <mfDefaultSorter by="description">Description</mfDefaultSorter>
                             </th>
                             <th style="width: 10%">
-                              <mfDefaultSorter by="sequence">Action</mfDefaultSorter>
+                              <mfDefaultSorter by="sequence">Sequence</mfDefaultSorter>
                             </th>
                           </tr>
                       </thead>
@@ -83,7 +84,7 @@
                         <tr *ngFor="let item of mf.data">
                           <td>{{item.id}}</td>
                           <td>{{item.description}}</td>
-                          <td> <a class="list-group-item" href="#"><i class="fa fa-search fa-fw" aria-hidden="true"></i></a></td>
+                          <td> <a class="list-group-item" href="#"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></a></td>
                       </tr>
                       </tbody>
                       <tfoot>
@@ -101,9 +102,10 @@
               <!---BLAST TAB-->
               <div contents="blast  ">Result
 
+                  </div>
+                 </div>
+                </ngui-tab>
               </div>
-  </div>
-</ngui-tab>
               </div>
             </div>
       </section>
