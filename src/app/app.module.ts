@@ -19,7 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { UtilService } from './services/util.service';
 
 import { NgxPaginationModule } from 'ngx-pagination'; 
-
+import {PopoverModule} from 'ng2-popover';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     AsyncLocalStorageModule,
     BrowserModule, 
-    NgxPaginationModule
+    NgxPaginationModule,
+    PopoverModule
   ],
   providers: [
     UtilService

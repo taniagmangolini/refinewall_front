@@ -19,28 +19,37 @@
                 <div class="card">
                   <div class="card-block">
                     <div class="form-row ">
-                      <div class="col-12 col-md-4 mb-2 mb-md-0">
-                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked>Sequence</label>
+                      <div class="col-12 col-md-6 mb-2 mb-md-0">
+                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked [popover]="sequencePopover">Sequence</label>
+                        <popover-content #sequencePopover
+                        [closeOnMouseOutside]="true"
+                        placement="auto bottom"><span style="color: #C21F39">Aminoacid sequence</span>
+                      </popover-content>
                       </div>
-                      <div class="col-12 col-md-4 mb-2 mb-md-0">
-                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked>Protein</label>
-                      </div>
-                      <div class="col-12 col-md-4 mb-2 mb-md-0">
-                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked>Gene</label>
+                      <div class="col-12 col-md-6 mb-2 mb-md-0">
+                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked [popover]="idPopover">Id</label>
+                        <popover-content #idPopover
+                          [closeOnMouseOutside]="true"
+                          placement="auto bottom"><span style="color: #C21F39">Sucest ID, Protein Id or Gene Id</span>
+                        </popover-content>
                       </div>
                     </div>
                    </div>
                   </div>
+
                   <div class="form-row">
                       <div class="col-12 col-md-12">
                         <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
                       </div>
-                    </div>
+                  </div>
+
               </form>
+
             </div>
           </div>
         </div>
       </header>
+
       <section class="result">
           <div class="container">
               <div class="row">
