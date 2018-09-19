@@ -16,7 +16,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 
-import { UtilService } from './services/util.service';
+import { RefineService } from './services/Refine.service';
 
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import {PopoverModule} from 'ng2-popover';
@@ -44,7 +44,7 @@ import {DataTableModule} from "angular2-datatable";
     DataTableModule
   ],
   providers: [
-    UtilService
+    RefineService
   ],
   entryComponents: [
    

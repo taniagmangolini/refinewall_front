@@ -12,25 +12,30 @@
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
               <form>
                 <div class="form-row">
+                    <div class="col-12 col-md-12 mb-2 mb-md-0">
+                        <input class="form-control form-control" type="text" placeholder="Enter you e-mail" name="emailSearch" [(ngModel)]="emailSearch"/>
+                    </div>
+                </div>
+                <div class="form-row">
                   <div class="col-12 col-md-12 mb-2 mb-md-0">
-                      <textarea class="form-control form-control" rows="5" placeholder="Enter what you are looking for..."></textarea>
+                      <textarea class="form-control form-control" rows="5" placeholder="Enter what you are looking for..." name="sequenceSearch" [(ngModel)]="sequenceSearch"></textarea>
                   </div>
                 </div>
                 <div class="card">
                   <div class="card-block">
                     <div class="form-row ">
                       <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked [popover]="sequencePopover">Sequence</label>
+                        <label class="radio-inline search-radio"><input type="radio" name="sequenceOption" value="sequence" [(ngModel)]="optionSearch" checked [popover]="sequencePopover">Sequence</label>
                         <popover-content #sequencePopover
                         [closeOnMouseOutside]="true"
-                        placement="auto bottom"><span style="color: #C21F39">Aminoacid sequence</span>
+                        placement="auto bottom"><span style="color: blue">Aminoacid sequence</span>
                       </popover-content>
                       </div>
                       <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <label class="radio-inline search-radio"><input type="radio" name="optradio" checked [popover]="idPopover">Id</label>
+                        <label class="radio-inline search-radio"><input type="radio"  name="idOption" value="id" [(ngModel)]="optionSearch"  [popover]="idPopover">Id</label>
                         <popover-content #idPopover
                           [closeOnMouseOutside]="true"
-                          placement="auto bottom"><span style="color: #C21F39">Sucest, Uniprot or Gene</span>
+                          placement="auto bottom"><span style="color: blue">Sucest, Uniprot or Gene</span>
                         </popover-content>
                       </div>
                     </div>
@@ -39,7 +44,7 @@
 
                   <div class="form-row">
                       <div class="col-12 col-md-12">
-                        <button type="submit" class="btn btn-block btn-lg btn-primary">Search</button>
+                        <button type="submit" class="btn btn-block btn-lg btn-primary" (click)="searchBySequenceEmail()">Search</button>
                       </div>
                   </div>
 
@@ -66,23 +71,24 @@
 
                   <!---SUCEST TAB-->
                     <div contents="sucest">
-                      <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+
+                      <table class="table table-striped">
                         <thead>
                           <tr>
                             <th style="width: 20%">
-                              <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                              Gene
                             </th>
                             <th style="width: 50%">
-                              <mfDefaultSorter by="description">Description</mfDefaultSorter>
+                              Description
                             </th>
                             <th style="width: 10%">
-                              <mfDefaultSorter by="sequence">Sequence</mfDefaultSorter>
+                              Detail
                             </th>
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of mf.data">
-                          <td>{{item.id}}</td>
+                        <tr *ngFor="let item of sucestList">
+                          <td>{{item.gene}}</td>
                           <td>{{item.description}}</td>
                           <td> <a class="list-group-item" href="#"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></a></td>
                       </tr>
@@ -90,18 +96,64 @@
                       <tfoot>
                         <tr>
                           <td colspan="4">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                            
                           </td>
                       </tr>
                     </tfoot>
                 </table>
-
               </div>
 
 
               <!---BLAST TAB-->
-              <div contents="blast  ">Result
-
+              <div contents="blast">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 10%">
+                            Entry Name
+                          </th>
+                          <th style="width: 20%">
+                              Protein
+                          </th>
+                          <th style="width: 20%">
+                              Organism
+                          </th>
+                          <th style="width: 10%">
+                              Gene
+                          </th>
+                          <th style="width: 5%">
+                              Score
+                          </th>
+                          <th style="width: 5%">
+                              Evalue
+                          </th>
+                          <th style="width: 10%">
+                              Sucest
+                          </th>
+                          <th style="width: 10%">
+                             Detail
+                          </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of blastResultList">
+                          <td>{{item.entryName}}</td>
+                          <td>{{item.proteinName}}</td>
+                          <td>{{item.organismName}}</td>
+                          <td>{{item.geneName}}</td>
+                          <td>{{item.score}}</td>
+                          <td>{{item.evalue}}</td>
+                          <td>{{item.sucestBusca}}</td>
+                          <td> <a class="list-group-item" href="#"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></a></td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4">
+                        </td>
+                    </tr>
+                  </tfoot>
+              </table>
                   </div>
                  </div>
                 </ngui-tab>
