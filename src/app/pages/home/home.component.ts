@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncLocalStorage } from 'angular-async-local-storage';
+import { DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 import {PopoverModule} from "ng2-popover";
 import { Sucest } from "./../../models/Sucest";
 import { RefineResult } from "./../../models/RefineResult";
 import { RefineService } from "./../../services/Refine.service";
 import { BlastResult } from '../../models/BlastResult';
-
+import { ISucestModal } from '../../../app/interfaces/ISucestModal';
+import { SucestModalComponent } from './modal/sucest-modal/sucest-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -20,9 +21,11 @@ export class HomeComponent implements OnInit {
   optionSearch: string;
   sucestList: Sucest[] = [] ;
   blastResultList: BlastResult[] = [] ;
+  hasResult: boolean = false;
 
 
   constructor(
+    private modal: DialogService, 
     private refineService: RefineService) {
   }
 
@@ -42,6 +45,8 @@ export class HomeComponent implements OnInit {
     this.emailSearch = "";
 
     this.optionSearch = "";
+
+    this.hasResult =  false;
   }
 
   searchBySequenceEmail() {
@@ -71,10 +76,20 @@ export class HomeComponent implements OnInit {
             }
           }
         }
+        this.hasResult =  true;
       }    
     });
   }
 
+  callSucestModal (sucestSelected:Sucest) {
+
+    this.modal.addDialog(SucestModalComponent, {
+      sucest: sucestSelected
+    });
+  }
+
+
+  /*
   data = [
     {
       "id": "SCQGLR1086E02.g",
@@ -110,7 +125,7 @@ export class HomeComponent implements OnInit {
       "id": "SCQGLR1086E02.g",
       "description": "endo-beta- -glucanase precursor",
       "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    }];
+    }]; */
  
 
 

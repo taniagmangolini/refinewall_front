@@ -21,19 +21,19 @@ import { RefineService } from './services/Refine.service';
 import { NgxPaginationModule } from 'ngx-pagination'; 
 import {PopoverModule} from 'ng2-popover';
 import { NguiTabModule } from '@ngui/tab';
-import {DataTableModule} from "angular2-datatable";
+import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    FooterComponent   
+    FooterComponent,
+    SucestModalComponent   
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(ROUTES),
-    BootstrapModalModule,
     FormsModule,
     HttpClientModule,
     AsyncLocalStorageModule,
@@ -41,13 +41,13 @@ import {DataTableModule} from "angular2-datatable";
     NgxPaginationModule,
     PopoverModule,
     NguiTabModule,
-    DataTableModule
+    BootstrapModalModule.forRoot({container:document.body})
   ],
   providers: [
     RefineService
   ],
   entryComponents: [
-   
+    SucestModalComponent
   ],
   bootstrap: [AppComponent]
 })

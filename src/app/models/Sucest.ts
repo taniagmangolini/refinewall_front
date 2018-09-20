@@ -5,6 +5,6 @@ export class Sucest {
     id: number;
     gene:string;
     description:string;
-    sucestSequences: SucestSequence[];
+    sequences: SucestSequence[];
     blastResults: BlastResult[];
 }

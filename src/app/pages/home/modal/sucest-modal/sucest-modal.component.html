@@ -1,0 +1,14 @@
+<div class="modal-box modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header content-center vertical">
+            <button type="button" class="close" (click)="cancel()" >&times;</button>
+            <h4 class="modal-title">Details - {{sucest.gene}}</h4>
+        </div>
+      
+        <div class="container modal-body">
+                <li *ngFor="let item of sucest.sequences">
+                        <textarea class="form-control form-control" [(ngModel)]="item.sequence" readonly></textarea>
+                </li>
+        </div>
+    </div>
+</div>
