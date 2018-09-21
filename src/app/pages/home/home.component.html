@@ -66,6 +66,14 @@
                   <div class="tabs">
                     <div index="sucest">Sucest</div>
                     <div index="blast">Blast Result</div>
+                    <div index="export">                            
+                      <a><i class="fa fa-file-excel-o" aria-hidden="true" style="color:green"  [popover]="excelPopover" [popoverOnHover]="true"></i>
+                      <popover-content #excelPopover
+                      [closeOnMouseOutside]="true"
+                       placement=" top">
+                       <span style="color: blue">Export to Excel</span>
+                    </popover-content>
+                    </a></div>
                   </div>
                   <div class="tab-contents">
 
@@ -78,11 +86,26 @@
                             <th style="width: 20%">
                               Gene
                             </th>
-                            <th style="width: 50%">
+                            <th style="width: 40%">
                               Description
                             </th>
+                            <th style="width: 10%"  [popover]="domainPopover" [popoverOnHover]="true">
+                              Domain
+                              <popover-content #domainPopover
+                              [closeOnMouseOutside]="true"
+                               placement=" top">
+                                <span style="color: blue">C: Cellulose</span><br>
+                                <span style="color: blue">H: Hemicellulose</span><br>
+                                <span style="color: blue">P: Pectin</span><br>
+                                <span style="color: blue">L: Lignin</span><br>
+                                <span style="color: blue">E: Expansin</span><br>
+                                <span style="color: blue">C: Cellulose</span><br>
+                                <span style="color: blue">M: Metabolism</span><br>
+                                <span style="color: blue">O: Others</span>
+                            </popover-content>
+                            </th>
                             <th style="width: 10%">
-                              Detail
+                              Details 
                             </th>
                           </tr>
                       </thead>
@@ -90,7 +113,8 @@
                         <tr *ngFor="let item of sucestList">
                           <td>{{item.gene}}</td>
                           <td>{{item.description}}</td>
-                          <td> <button class="btn-sm btn-primary" (click)="callSucestModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button>
+                          <td>C, P</td>
+                          <td><button class="btn-sm btn-primary" (click)="callSucestModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button>
                       </tr>
                       </tbody>
                       <tfoot>
@@ -111,41 +135,41 @@
                       <thead>
                         <tr>
                           <th style="width: 10%">
-                            Entry Name
-                          </th>
-                          <th style="width: 20%">
-                              Protein
-                          </th>
-                          <th style="width: 20%">
-                              Organism
+                          Sucest
                           </th>
                           <th style="width: 10%">
-                              Gene
+                          Uniprot
+                          </th>
+                          <th style="width: 10%">
+                          Protein
+                          </th>
+                          <th style="width: 10%">
+                          Organism
+                          </th>
+                          <th style="width: 10%">
+                          Gene
                           </th>
                           <th style="width: 5%">
-                              Score
+                          Score
                           </th>
                           <th style="width: 5%">
-                              Evalue
+                          Evalue
                           </th>
-                          <th style="width: 10%">
-                              Sucest
-                          </th>
-                          <th style="width: 10%">
-                             Detail
+                          <th>
+                          Detail
                           </th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of blastResultList | paginate: { itemsPerPage: 50, currentPage: p}">
+                      <tr *ngFor="let item of blastResultList | paginate: { itemsPerPage: 30, currentPage: p}">
+                          <td>{{item.sucestBusca}}</td>
                           <td>{{item.entryName}}</td>
                           <td>{{item.proteinName}}</td>
                           <td>{{item.organismName}}</td>
                           <td>{{item.geneName}}</td>
                           <td>{{item.score}}</td>
                           <td>{{item.evalue}}</td>
-                          <td>{{item.sucestBusca}}</td>
-                          <td> <a class="list-group-item" href="#"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></a></td>
+                          <td><button class="btn-sm btn-primary" (click)="callUniprotModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button></td>
                     </tr>
                     </tbody>
                     <tfoot>

@@ -22,6 +22,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {PopoverModule} from 'ng2-popover';
 import { NguiTabModule } from '@ngui/tab';
 import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-modal.component';
+import { UniprotModalComponent } from './pages/home/modal/uniprot-modal/uniprot-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-mod
     HomeComponent,
     NavbarComponent,
     FooterComponent,
-    SucestModalComponent   
+    SucestModalComponent,
+    UniprotModalComponent   
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-mod
     RefineService
   ],
   entryComponents: [
-    SucestModalComponent
+    SucestModalComponent,
+    UniprotModalComponent
   ],
   bootstrap: [AppComponent]
 })

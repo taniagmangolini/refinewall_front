@@ -8,6 +8,7 @@ import { RefineService } from "./../../services/Refine.service";
 import { BlastResult } from '../../models/BlastResult';
 import { ISucestModal } from '../../../app/interfaces/ISucestModal';
 import { SucestModalComponent } from './modal/sucest-modal/sucest-modal.component';
+import { UniprotModalComponent } from './modal/uniprot-modal/uniprot-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -88,45 +89,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  callUniprotModal (blastItemSelected:BlastResult) {
 
-  /*
-  data = [
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    },
-    {
-      "id": "SCQGLR1086E02.g",
-      "description": "endo-beta- -glucanase precursor",
-      "sequence": "XAQQLFEFGDRYRGTYDSSIAEVRSYYASVSGYQDELLWAALWLHRATGRDDYLRYAVDKAESFGGVGWAMTEFSWDVKYAGVQVLAAKLLLEGDPGALKHRSVLEQYKAKAEHYLCACLGRNGGNGSDNVERSPGGMLYVRQWNNLQYVXQRRX"
-    }]; */
- 
+    this.modal.addDialog(UniprotModalComponent, {
+      blastResult: blastItemSelected
+    });
+  }
 
+  
 
 }
