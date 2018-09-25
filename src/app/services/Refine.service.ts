@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 
 import { Endpoint, headers } from '../app.endpoints';
 import { RefineResult } from '../models/RefineResult';
+import { Uniprot } from '../models/Uniprot';
 
 @Injectable()
 export class RefineService {
@@ -14,6 +15,11 @@ export class RefineService {
 
   getRefineResultBySequenceEmail(sequence: string, email: string): Observable<RefineResult> {
     return this.http.get<RefineResult>(Endpoint.refineBySequence + "?sequence=" + sequence + "&email=" + email  );
+  }
+
+
+  getUniprotById(id: string): Observable<Uniprot> {
+    return this.http.get<Uniprot>(Endpoint.uniprotById + "?idProtein="  );
   }
 
 }
