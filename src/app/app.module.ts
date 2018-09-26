@@ -16,6 +16,11 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 
+import { FilterBlastPipe } from './filter/FilterBlastPipe';
+import { FilterSucestByDescriptionGenePipe } from './filter/FilterSucestByDescriptionGenePipe';
+
+import { ArraySortPipe } from './sorters/ArraySortPipe';
+
 import { RefineService } from './services/Refine.service';
 
 import { NgxPaginationModule } from 'ngx-pagination'; 
@@ -23,6 +28,7 @@ import {PopoverModule} from 'ng2-popover';
 import { NguiTabModule } from '@ngui/tab';
 import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-modal.component';
 import { UniprotModalComponent } from './pages/home/modal/uniprot-modal/uniprot-modal.component';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   declarations: [
@@ -31,8 +37,12 @@ import { UniprotModalComponent } from './pages/home/modal/uniprot-modal/uniprot-
     NavbarComponent,
     FooterComponent,
     SucestModalComponent,
-    UniprotModalComponent   
-  ],
+    UniprotModalComponent,
+    FilterSucestByDescriptionGenePipe ,
+    FilterBlastPipe,
+    ArraySortPipe,
+    LoadingComponent
+    ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(ROUTES),
@@ -43,6 +53,7 @@ import { UniprotModalComponent } from './pages/home/modal/uniprot-modal/uniprot-
     NgxPaginationModule,
     PopoverModule,
     NguiTabModule,
+    Ng4LoadingSpinnerModule.forRoot(),
     BootstrapModalModule.forRoot({container:document.body})
   ],
   providers: [

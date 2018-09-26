@@ -1,13 +1,146 @@
 <div class="modal-box modal-dialog">
-        <div class="modal-content">
+    <div class="modal-content">
+
             <div class="modal-header content-center vertical">
                 <button type="button" class="close" (click)="cancel()" >&times;</button>
-                <h4 class="modal-title">Uniprot - {{blastResult.entryName}}</h4>
+                <h4 class="modal-title">{{blastResult.entryName}}</h4>
             </div>
           
             <div class="container modal-body">
-                    DETALHES AQUI
+                <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <ul class="nav nav-tabs card-header-tabs">
+                                        <li class="nav-item" (click)="changeOption('Details')"><a  class="nav-link active" href="#">Details</a></li>
+                                        <li class="nav-item"><a  class="nav-link" href="#" (click)="changeOption('Sequence')">Sequence</a></li>
+                                        <li class="nav-item"><a  class="nav-link"  href="#" (click)="changeOption('Databases')">Databases</a></li>
+                                        <li class="nav-item"><a  class="nav-link"  href="#" (click)="changeOption('Keywords')">Keywords</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>        
+
+                        <div class="panel-body">
+
+                            <!--DETAILS-->
+                            <div *ngIf="option == 'Details'">
+
+                                <div class="card">
+                                    <h5 class="card-header">Statistics</h5>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <span class="detail-label"> Score </span>
+                                                </div>
+                                                <div class="col-sm">
+                                                   <span class="detail-label"> Evalue </span>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <span class="detail-label"> Identities </span>   
+                                                </div>
+                                                <div class="col-sm">
+                                                    <span class="detail-label"> Gaps </span>   
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-sm card-text">
+                                                            {{blastResult.score}}
+                                                    </div>                                              
+                                                    <div class="col-sm card-text">
+                                                       {{blastResult.evalue}}
+                                                    </div>
+                                                    <div class="col-sm card-text">
+                                                        {{blastResult.identities}}   
+                                                    </div>
+                                                    <div class="col-sm card-text">
+                                                        {{blastResult.gaps}}   
+                                                    </div>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                </div>
+
+                                <div class="card" *ngIf="uniprotVO != null && uniprotVO.protein != null">
+                                        <h5 class="card-header">Protein</h5>
+                                        <div class="card-body">
+                                            <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm col-12 col-md-4 mb-2 mb-md-0">
+                                                           <span class="detail-label"> Protein Name </span>
+                                                        </div>
+                                                        <div class="col-sm col-12 col-md-4 mb-2 mb-md-0">
+                                                            <span class="detail-label "> Organism </span>   
+                                                        </div>
+                                                        <div class="col-sm col-12 col-md-4 mb-2 mb-md-0">
+                                                                <span class="detail-label"> EC Numbers </span>   
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 card-text">
+                                                               {{uniprotVO.protein.proteinName}}
+                                                            </div>
+                                                            <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 card-text">
+                                                                {{uniprotVO.organism}}   
+                                                            </div>
+                                                            <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 " *ngIf="uniprotVO.protein.ecNumber != null && uniprotVO.protein.ecNumber != []">
+                                                                    <li *ngFor="let item of uniprotVO.protein.ecNumber">
+                                                                        <span class="card-text"> {{item}} </span>
+                                                                    </li>
+                                                            </div>
+                                                    </div>
+
+                                                </div>  
+
+                                        </div>
+
+                                    </div>
+                                              
+                                    <div class="card"  *ngIf="uniprotVO.genes != null && uniprotVO.genes != []">
+                                            <h5 class="card-header">Genes</h5>
+                                            <div class="card-body">
+                                                 <li *ngFor="let item of uniprotVO.genes">
+                                                     <span class="card-text"> {{item}} </span>
+                                                 </li>
+                                            </div>
+                                    </div>
+                            </div>
+
+                    <!--SEQUENCE-->
+                    <div class="card" *ngIf="option == 'Sequence'">
+                            <h5 class="card-header">Sequence</h5>
+                            <div class="card-body">
+                                <span class="card-text">{{uniprotVO.sequence}}</span>
+                            </div>
+                    </div>
+                            
+                    <!--DATABASES-->
+                    <div class="card" *ngIf="option == 'Databases' &&  uniprotVO.databases != null">
+                            <div class="card-body">
+                                <ul>
+                                        <li *ngFor="let db of uniprotVO.databases">
+                                            <span class="card-text">{{db}}</span>
+                                        </li>
+                                </ul>             
+                            </div>
+                    </div>
+
+                    <!--KEYWORDS-->
+                    <div class="card" *ngIf="option == 'Keywords' && uniprotVO.keywords != null">
+                            <div class="card-body">
+                                <li *ngFor="let item of uniprotVO.keywords">
+                                    <span class="card-text"> {{item}} </span>
+                                </li>                            
+                            </div>
+                    </div>
+                  
+                    
+                </div>
+                     
             </div>
-        </div>
+
     </div>
-    
+</div>
+<ng4-loading-spinner> </ng4-loading-spinner>

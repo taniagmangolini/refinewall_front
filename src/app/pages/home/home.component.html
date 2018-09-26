@@ -13,12 +13,12 @@
               <form>
                 <div class="form-row">
                     <div class="col-12 col-md-12 mb-2 mb-md-0">
-                        <input class="form-control form-control" type="text" placeholder="Enter you e-mail" name="emailSearch" [(ngModel)]="emailSearch"/>
+                        <input class="form-control form-control" type="email" placeholder="Enter you e-mail" name="emailSearch" [(ngModel)]="emailSearch" email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required/>
                     </div>
                 </div>
                 <div class="form-row">
                   <div class="col-12 col-md-12 mb-2 mb-md-0">
-                      <textarea class="form-control form-control" rows="5" placeholder="Enter what you are looking for..." name="sequenceSearch" [(ngModel)]="sequenceSearch"></textarea>
+                      <textarea class="form-control form-control" required  rows="5" placeholder="Enter what you are looking for..." name="sequenceSearch" [(ngModel)]="sequenceSearch"></textarea>
                   </div>
                 </div>
                 <div class="card">
@@ -40,6 +40,7 @@
                       </div>
                     </div>
                    </div>
+                    <span style="color: red">{{errorMsg}}</span>
                   </div>
 
                   <div class="form-row">
@@ -80,6 +81,18 @@
                   <!---SUCEST TAB-->
                     <div contents="sucest">
 
+                      <div class="">
+                        <div class="content-end">
+                          <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Search.."
+                            [(ngModel)]="search" />
+                    
+                          <i class="fa fa-search search"></i>
+                        </div>
+                      </div>
+
                       <table class="table table-striped">
                         <thead>
                           <tr>
@@ -110,7 +123,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of sucestList">
+                        <tr *ngFor="let item of sucestList | filterSucestByDescriptionGenePipe: search ">
                           <td>{{item.gene}}</td>
                           <td>{{item.description}}</td>
                           <td>C, P</td>
@@ -131,6 +144,18 @@
 
               <!---BLAST TAB-->
               <div contents="blast">
+                  <div class="">
+                      <div class="content-end">
+                        <input 
+                          type="text" 
+                          class="form-control" 
+                          placeholder="Search.."
+                          [(ngModel)]="search" />
+                  
+                        <i class="fa fa-search search"></i>
+                      </div>
+                    </div>
+
                   <table class="table table-striped">
                       <thead>
                         <tr>
@@ -152,23 +177,19 @@
                           <th style="width: 5%">
                           Score
                           </th>
-                          <th style="width: 5%">
-                          Evalue
-                          </th>
                           <th>
                           Detail
                           </th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of blastResultList | paginate: { itemsPerPage: 30, currentPage: p}">
+                      <tr *ngFor="let item of blastResultList | filterBlastPipe: search | sort:'score'  | paginate: { itemsPerPage: 30, currentPage: p}">
                           <td>{{item.sucestBusca}}</td>
                           <td>{{item.entryName}}</td>
                           <td>{{item.proteinName}}</td>
                           <td>{{item.organismName}}</td>
                           <td>{{item.geneName}}</td>
                           <td>{{item.score}}</td>
-                          <td>{{item.evalue}}</td>
                           <td><button class="btn-sm btn-primary" (click)="callUniprotModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button></td>
                     </tr>
                     </tbody>

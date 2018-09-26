@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   sucestList: Sucest[] = [] ;
   blastResultList: BlastResult[] = [] ;
   hasResult: boolean = false;
+  errorMsg = "";
 
 
   constructor(
@@ -48,26 +49,55 @@ export class HomeComponent implements OnInit {
     this.optionSearch = "";
 
     this.hasResult =  false;
+
+    this.errorMsg = "";
+
   }
 
   searchBySequenceEmail() {
 
     let refineResultList : RefineResult[] = [];
 
-    console.log("sequence = > " + this.sequenceSearch);
+    //console.log("sequence = > " + this.sequenceSearch);
 
-    console.log("email = > " + this.emailSearch);
+    //console.log("email = > " + this.emailSearch);
 
-    console.log("optionSearch = > " + this.optionSearch);
+    //console.log("optionSearch = > " + this.optionSearch);
+
+    this.errorMsg = "";
+
+    if(this.optionSearch == "" && this.sequenceSearch == "" && this.emailSearch == "") {
+      this.errorMsg = 'Inform all the search fields!';
+
+    } else if(this.optionSearch == "") {
+        this.errorMsg = 'Select the search option!';
+
+    } else if (this.optionSearch == "sequence" && this.sequenceSearch == "") {
+      this.errorMsg = 'Inform the sequence!';
+
+    } else if (this.optionSearch == "id" && this.sequenceSearch == "") {
+      this.errorMsg = 'return "Informe the id!';
+
+    } else if(this.emailSearch == "") {
+      this.errorMsg = 'Inform your e-mail!';
+    }
+
+    if(this.errorMsg != "") {
+      return;
+    }
+
 
     this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
     .subscribe(data => {
 
       if(data != null) {
 
-        if(data.sucests != null ){
+        if(data.sucests != null ) {
+
           this.sucestList = data.sucests;
+
           console.log( this.sucestList);
+
           for(let i = 0; i < this.sucestList.length; i++ ) {
             if(this.sucestList[i].blastResults != []) {
               console.log( this.sucestList[i]);
@@ -76,10 +106,21 @@ export class HomeComponent implements OnInit {
                }
             }
           }
-        }
+
+        } 
+
         this.hasResult =  true;
-      }    
-    });
+
+      } else {
+
+        this.errorMsg= "Not found!";   
+
+      }
+    }, error => {
+        console.log("error = >" + error);
+        this.errorMsg= error;   
+
+      });
   }
 
   callSucestModal (sucestSelected:Sucest) {
