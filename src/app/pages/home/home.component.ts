@@ -9,6 +9,7 @@ import { BlastResult } from '../../models/BlastResult';
 import { ISucestModal } from '../../../app/interfaces/ISucestModal';
 import { SucestModalComponent } from './modal/sucest-modal/sucest-modal.component';
 import { UniprotModalComponent } from './modal/uniprot-modal/uniprot-modal.component';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private modal: DialogService, 
+    private spinnerService: Ng4LoadingSpinnerService,
     private refineService: RefineService) {
   }
 
@@ -54,15 +56,9 @@ export class HomeComponent implements OnInit {
 
   }
 
-  searchBySequenceEmail() {
+  refineIdOrSequence() {
 
     let refineResultList : RefineResult[] = [];
-
-    //console.log("sequence = > " + this.sequenceSearch);
-
-    //console.log("email = > " + this.emailSearch);
-
-    //console.log("optionSearch = > " + this.optionSearch);
 
     this.errorMsg = "";
 
@@ -86,41 +82,132 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    this.spinnerService.show();
 
-    this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
-    .subscribe(data => {
+    if (this.optionSearch == "id") {
 
-      if(data != null) {
+      this.searchByIdEmail();
 
-        if(data.sucests != null ) {
+    } else {
 
-          this.sucestList = data.sucests;
+      this.searchBySequenceEmail();
+    }
 
-          console.log( this.sucestList);
+  };
 
-          for(let i = 0; i < this.sucestList.length; i++ ) {
-            if(this.sucestList[i].blastResults != []) {
-              console.log( this.sucestList[i]);
-              for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+  searchByIdEmail() {
+
+     console.log("by Id " + this.sequenceSearch);
+
+      this.refineService.getRefineResultByIdEmail(this.sequenceSearch, this.emailSearch)
+      .subscribe(data => {
+
+        if(data != null) {
+
+          if(data.sucests != null ) {
+
+            this.sucestList = data.sucests;
+
+            console.log( this.sucestList);
+
+            for(let i = 0; i < this.sucestList.length; i++ ) {
+
+              if(this.sucestList[i].blastResults != []) {
+
+                console.log( this.sucestList[i]);
+
+                for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+
                   this.blastResultList.push(this.sucestList[i].blastResults[j]);
-               }
+                }
+              }
             }
-          }
+            this.hasResult =  true;
 
-        } 
+          } else {
 
-        this.hasResult =  true;
+            this.hasResult =  false;
 
-      } else {
+          } 
 
-        this.errorMsg= "Not found!";   
+         } else {
 
-      }
-    }, error => {
+          this.hasResult =  false;
+
+          this.errorMsg= "Not found!";   
+
+        }
+
+      this.spinnerService.hide();
+
+      }, error => {
+
         console.log("error = >" + error);
+
         this.errorMsg= error;   
 
+        this.spinnerService.hide();
+
       });
+
+    } ;
+
+  searchBySequenceEmail() {
+
+         console.log("by sequence " + this.sequenceSearch);
+
+      this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
+      .subscribe(data => {
+
+        if(data != null) {
+
+          if(data.sucests != null ) {
+
+            this.sucestList = data.sucests;
+
+            console.log( this.sucestList);
+
+            for(let i = 0; i < this.sucestList.length; i++ ) {
+
+              if(this.sucestList[i].blastResults != []) {
+
+                console.log( this.sucestList[i]);
+
+                for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+
+                  this.blastResultList.push(this.sucestList[i].blastResults[j]);
+                }
+              }
+            }
+            this.hasResult =  true;
+
+          } else {
+
+            this.hasResult =  false;
+
+          } 
+
+         } else {
+
+          this.hasResult =  false;
+
+          this.errorMsg= "Not found!";   
+
+        }
+
+      this.spinnerService.hide();
+
+      }, error => {
+
+        console.log("error = >" + error);
+
+        this.errorMsg= error;   
+
+        this.spinnerService.hide();
+
+      });
+
+    
   }
 
   callSucestModal (sucestSelected:Sucest) {

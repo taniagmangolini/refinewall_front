@@ -17,6 +17,9 @@ export class RefineService {
     return this.http.get<RefineResult>(Endpoint.refineBySequence + "?sequence=" + sequence + "&email=" + email  );
   }
 
+  getRefineResultByIdEmail(id: string, email: string): Observable<RefineResult> {
+    return this.http.get<RefineResult>(Endpoint.refineById + "?id=" + id + "&email=" + email  );
+  }
 
   getUniprotById(id: string): Observable<UniprotVO> {
     return this.http.get<UniprotVO>(Endpoint.uniprotById + "?idProtein=" + id  );

@@ -10,15 +10,16 @@ export class FilterBlastPipe implements PipeTransform {
             return items;
         }
 
-        const search = filter.toLowerCase();
+        const search = filter != null ? filter.toLowerCase() : "";
 
         return items.filter(item => {
-            const uniqueIdentifier = item.uniqueIdentifier.toLowerCase();
-            const organismName = item.organismName.toLowerCase();
-            const geneName =  item.geneName != null? item.geneName.toLowerCase() : null;
-            const entryName = item.entryName.toLowerCase();
-            const proteinName = item.proteinName != null? item.proteinName.toLowerCase() : null;
-            const sucestBusca = item.sucestBusca != null? item.sucestBusca.toLowerCase() : null;
+
+            const uniqueIdentifier = item.uniqueIdentifier != null ? item.uniqueIdentifier.toLowerCase() : "";
+            const organismName = item.organismName != null ? item.organismName.toLowerCase() : "";
+            const geneName =  item.geneName != null? item.geneName.toLowerCase() : "";
+            const entryName = item.entryName != null ? item.entryName.toLowerCase() : "";
+            const proteinName = item.proteinName != null? item.proteinName.toLowerCase() : "";
+            const sucestBusca = item.sucestBusca != null? item.sucestBusca.toLowerCase() : "";
 
             if (uniqueIdentifier.includes(search) ||
                 organismName.includes(search) ||
