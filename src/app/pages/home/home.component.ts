@@ -185,6 +185,8 @@ export class HomeComponent implements OnInit {
 
             this.hasResult =  false;
 
+            this.errorMsg= "Not found!";  
+
           } 
 
          } else {
@@ -201,7 +203,7 @@ export class HomeComponent implements OnInit {
 
         console.log("error = >" + error);
 
-        this.errorMsg= error;   
+        this.errorMsg = "Error to process the request" + error;   
 
         this.spinnerService.hide();
 

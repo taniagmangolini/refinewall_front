@@ -13,8 +13,12 @@
               <form>
                 <div class="form-row">
                     <div class="col-12 col-md-12 mb-2 mb-md-0">
-                        <input class="form-control form-control" type="email" placeholder="Enter you e-mail" name="emailSearch" [(ngModel)]="emailSearch" email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required/>
+                        <input class="form-control form-control" type="email" placeholder="Enter you e-mail" name="emailSearch" [popover]="emailPopover" [(ngModel)]="emailSearch" email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required/>
                     </div>
+                    <popover-content #emailPopover
+                    [closeOnMouseOutside]="true"
+                    placement="auto bottom"><span style="color: blue">Please, enter a valid e-mail</span>
+                  </popover-content>
                 </div>
                 <div class="form-row">
                   <div class="col-12 col-md-12 mb-2 mb-md-0">
