@@ -15,6 +15,9 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  
+  redirectToLafiecoWebsite(): void {
+    window.open("http://www.lafieco.com.br", "_blank");
+  }
+
 
 }
