@@ -10,6 +10,8 @@ import { ISucestModal } from '../../../app/interfaces/ISucestModal';
 import { SucestModalComponent } from './modal/sucest-modal/sucest-modal.component';
 import { UniprotModalComponent } from './modal/uniprot-modal/uniprot-modal.component';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { ErrorMessage } from '../../models/ErrorMessage';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-home',
@@ -58,7 +60,11 @@ export class HomeComponent implements OnInit {
 
   refineIdOrSequence() {
 
-    let refineResultList : RefineResult[] = [];
+    this.blastResultList = [] ;
+
+    this.sucestList = [];
+
+    this.hasResult = false;
 
     this.errorMsg = "";
 
@@ -93,6 +99,11 @@ export class HomeComponent implements OnInit {
       this.searchBySequenceEmail();
     }
 
+    //console.log("blastResultList " + (this.blastResultList == null));
+   // console.log("hasresult " + this.hasResult);
+   // console.log("error " + this.errorMsg);
+
+
   };
 
   searchByIdEmail() {
@@ -100,15 +111,16 @@ export class HomeComponent implements OnInit {
      console.log("by Id " + this.sequenceSearch);
 
       this.refineService.getRefineResultByIdEmail(this.sequenceSearch, this.emailSearch)
+
       .subscribe(data => {
 
-        if(data != null) {
+        if(data != null && data != undefined) {
 
-          if(data.sucests != null ) {
+          if(data.sucests != null && data.sucests.length > 0) {
 
             this.sucestList = data.sucests;
 
-            console.log( this.sucestList);
+            //console.log("sucests " +  this.sucestList);
 
             for(let i = 0; i < this.sucestList.length; i++ ) {
 
@@ -128,23 +140,25 @@ export class HomeComponent implements OnInit {
 
             this.hasResult =  false;
 
+            this.errorMsg = "Not found!";   
+
           } 
 
          } else {
 
           this.hasResult =  false;
 
-          this.errorMsg= "Not found!";   
+          this.errorMsg = "Not found!";   
 
         }
 
       this.spinnerService.hide();
 
-      }, error => {
+      }, (error: ErrorMessage) => {
 
-        console.log("error = >" + error);
+        console.log("error= >" + error.message);
 
-        this.errorMsg= error;   
+        this.errorMsg = "Error to process the request: " + error.message;   
 
         this.spinnerService.hide();
 
@@ -161,7 +175,7 @@ export class HomeComponent implements OnInit {
 
         if(data != null) {
 
-          if(data.sucests != null ) {
+          if(data.sucests != null && data.sucests.length > 0 ) {
 
             this.sucestList = data.sucests;
 
@@ -199,11 +213,11 @@ export class HomeComponent implements OnInit {
 
       this.spinnerService.hide();
 
-      }, error => {
+      }, (error: ErrorMessage) => {
 
-        console.log("error = >" + error);
+        console.log("error = >" + error.message);
 
-        this.errorMsg = "Error to process the request" + error;   
+        this.errorMsg = "Error to process the request: " + error.message;   
 
         this.spinnerService.hide();
 
@@ -226,6 +240,22 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  exportToCsv() {
+
+    const options = { 
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      useBom: true,
+      useKeysAsHeaders: true
+    };
   
+    const csvExporter = new ExportToCsv(options);
+  
+    csvExporter.generateCsv(this.blastResultList);
+
+  };
 
 }

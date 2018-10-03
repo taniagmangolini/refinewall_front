@@ -30,6 +30,7 @@ import { SucestModalComponent } from './pages/home/modal/sucest-modal/sucest-mod
 import { UniprotModalComponent } from './pages/home/modal/uniprot-modal/uniprot-modal.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
+
 @NgModule({
   declarations: [
     AppComponent,

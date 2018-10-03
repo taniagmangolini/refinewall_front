@@ -61,7 +61,7 @@
       </header>
 
       <section class="result">
-          <div class="container" *ngIf="hasResult"> 
+          <div class="container" *ngIf="hasResult && blastResultList?.length > 0"> 
               <div class="row">
                 <div class="col-12 col-md-12">
                 <ngui-tab
@@ -69,16 +69,15 @@
                   selected-index-class="selected"
                   selected-contents-class="fadeIn animated">
                   <div class="tabs">
-                    <div index="sucest">Sucest</div>
+                    <div index="sucest" *ngIf="sucestList?.length > 0 && sucestList[0].gene != 'NOT_FOUND'">Sucest</div>
                     <div index="blast">Blast Result</div>
-                    <div index="export">                            
-                      <a><i class="fa fa-file-excel-o" aria-hidden="true" style="color:green"  [popover]="excelPopover" [popoverOnHover]="true"></i>
+                      <a (click)="exportToCsv()"><i class="fa fa-file-excel-o" aria-hidden="true" style="color:green"  [popover]="excelPopover" [popoverOnHover]="true"></i>
                       <popover-content #excelPopover
                       [closeOnMouseOutside]="true"
                        placement=" top">
                        <span style="color: blue">Export to Excel</span>
                     </popover-content>
-                    </a></div>
+                    </a>
                   </div>
                   <div class="tab-contents">
 
