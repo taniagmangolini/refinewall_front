@@ -72,7 +72,7 @@
                                                            <span class="detail-label"> Protein Name </span>
                                                         </div>
                                                         <div class="col-sm col-12 col-md-4 mb-2 mb-md-0">
-                                                            <span class="detail-label "> Organism </span>   
+                                                            <span class="detail-label"> Organism </span>   
                                                         </div>
                                                         <div class="col-sm col-12 col-md-4 mb-2 mb-md-0">
                                                                 <span class="detail-label"> EC Numbers </span>   
@@ -83,9 +83,9 @@
                                                                {{uniprotVO.protein.proteinName}}
                                                             </div>
                                                             <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 card-text">
-                                                                {{uniprotVO.organism}}   
+                                                                <span class="organism-italic">{{uniprotVO.organism}}</span>   
                                                             </div>
-                                                            <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 " *ngIf="uniprotVO.protein.ecNumber != null && uniprotVO.protein.ecNumber != []">
+                                                            <div class="col-sm col-12 col-md-4 mb-2 mb-md-0 " *ngIf="uniprotVO.protein.ecNumber?.length > 0">
                                                                     <li *ngFor="let item of uniprotVO.protein.ecNumber">
                                                                         <span class="card-text"> {{item}} </span>
                                                                     </li>
@@ -98,7 +98,7 @@
 
                                     </div>
                                               
-                                    <div class="card"  *ngIf="uniprotVO.genes != null && uniprotVO.genes != []">
+                                    <div class="card"  *ngIf="uniprotVO != null && uniprotVO.genes!.length > 0">
                                             <h5 class="card-header">Genes</h5>
                                             <div class="card-body">
                                                  <li *ngFor="let item of uniprotVO.genes">
@@ -117,7 +117,7 @@
                     </div>
                             
                     <!--DATABASES-->
-                    <div class="card" *ngIf="option == 'Databases' &&  uniprotVO.databases != null">
+                    <div class="card" *ngIf="option == 'Databases' && uniprotVO != null &&  uniprotVO.databases!.length > 0">
                             <div class="card-body">
                                 <ul>
                                         <li *ngFor="let db of uniprotVO.databases">
@@ -128,7 +128,7 @@
                     </div>
 
                     <!--KEYWORDS-->
-                    <div class="card" *ngIf="option == 'Keywords' && uniprotVO.keywords != null">
+                    <div class="card" *ngIf="option == 'Keywords' && uniprotVO != null &&  uniprotVO.keywords != null">
                             <div class="card-body">
                                 <li *ngFor="let item of uniprotVO.keywords">
                                     <span class="card-text"> {{item}} </span>

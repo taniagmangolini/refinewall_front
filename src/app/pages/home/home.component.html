@@ -115,9 +115,9 @@
                                 <span style="color: blue">P: Pectin</span><br>
                                 <span style="color: blue">L: Lignin</span><br>
                                 <span style="color: blue">E: Expansin</span><br>
-                                <span style="color: blue">C: Cellulose</span><br>
                                 <span style="color: blue">M: Metabolism</span><br>
                                 <span style="color: blue">O: Others</span>
+                                <span style="color: blue">NA: Not Defined</span>
                             </popover-content>
                             </th>
                             <th style="width: 10%">
@@ -127,10 +127,12 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of sucestList | filterSucestByDescriptionGenePipe: search ">
-                          <td>{{item.gene}}</td>
-                          <td>{{item.description}}</td>
-                          <td>C, P</td>
-                          <td><button class="btn-sm btn-primary" (click)="callSucestModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button>
+  
+                          <td *ngIf="item.gene != 'NOT_FOUND'">{{item.gene}}</td>
+                          <td *ngIf="item.gene != 'NOT_FOUND'">{{item.description}}</td>
+                          <td *ngIf="item.gene != 'NOT_FOUND'">C, P</td>
+                          <td *ngIf="item.gene != 'NOT_FOUND'"><button class="btn-sm btn-primary" (click)="callSucestModal(item)"><i class="fa fa-edit fa-fw" aria-hidden="true"></i></button>
+     
                       </tr>
                       </tbody>
                       <tfoot>
