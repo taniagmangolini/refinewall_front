@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   hasResult: boolean = false;
   errorMsg = "";
 
-
   constructor(
     private modal: DialogService, 
     private spinnerService: Ng4LoadingSpinnerService,
