@@ -1,10 +1,11 @@
 import { HttpHeaders } from '@angular/common/http';
 
+const BASE_URL = 'http://refinewall-refinewallfront.1d35.starter-us-east-1.openshiftapps.com';
 
-const BASE_URL = 'http://localhost:8080';
+//const BASE_URL = 'http://localhost:8080';
 
 const GLOBAL = {
-  login: BASE_URL + '/login', 
+ // login: BASE_URL + '/login', 
   refineBySequence: BASE_URL + '/refine/sequence/', 
   refineById: BASE_URL + '/refine/id/', 
   uniprotById: BASE_URL + '/uniprot'
