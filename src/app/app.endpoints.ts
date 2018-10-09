@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 
-const BASE_URL = 'http://refinewall-refinewallfront.1d35.starter-us-east-1.openshiftapps.com';
+const BASE_URL = 'http://refinewall-refinewallfront.1d35.starter-us-east-1.openshiftapps.com/refinewall-0.0.1-SNAPSHOT/';
 
 //const BASE_URL = 'http://localhost:8080';
 
