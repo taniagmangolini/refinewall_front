@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit {
       this.refineService.getRefineResultByIdEmail(this.sequenceSearch, this.emailSearch)
 
       .subscribe(data => {
+        console.log("entrou 1");
 
         if(data != null && data != undefined) {
 
@@ -119,7 +120,7 @@ export class HomeComponent implements OnInit {
 
             this.sucestList = data.sucests;
 
-            //console.log("sucests " +  this.sucestList);
+            console.log("entrou 2");
 
             for(let i = 0; i < this.sucestList.length; i++ ) {
 

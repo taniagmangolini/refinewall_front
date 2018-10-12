@@ -78,7 +78,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 
-var BASE_URL = 'http://refinewall-refinewallfront.1d35.starter-us-east-1.openshiftapps.com';
+var BASE_URL = 'https://refinewall.herokuapp.com';
 //const BASE_URL = 'http://localhost:8080';
 var GLOBAL = {
     // login: BASE_URL + '/login', 
@@ -581,10 +581,11 @@ var HomeComponent = (function () {
         console.log("by Id " + this.sequenceSearch);
         this.refineService.getRefineResultByIdEmail(this.sequenceSearch, this.emailSearch)
             .subscribe(function (data) {
+            console.log("entrou 1");
             if (data != null && data != undefined) {
                 if (data.sucests != null && data.sucests.length > 0) {
                     _this.sucestList = data.sucests;
-                    //console.log("sucests " +  this.sucestList);
+                    console.log("entrou 2");
                     for (var i = 0; i < _this.sucestList.length; i++) {
                         if (_this.sucestList[i].blastResults != []) {
                             console.log(_this.sucestList[i]);
