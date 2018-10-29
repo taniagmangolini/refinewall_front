@@ -70,7 +70,7 @@
                   selected-contents-class="fadeIn animated">
                   <div class="tabs">
                     <div index="sucest" *ngIf="sucestList?.length > 0 && sucestList[0].gene != 'NOT_FOUND'">Sucest</div>
-                    <div index="blast">Blast Result</div>
+                    <div index="blast">Blast </div>
                       <a (click)="exportToCsv()"><i class="fa fa-file-excel-o" aria-hidden="true" style="color:green"  [popover]="excelPopover" [popoverOnHover]="true"></i>
                       <popover-content #excelPopover
                       [closeOnMouseOutside]="true"
@@ -183,7 +183,7 @@
                           Evalue
                           </th>
                           <th>
-                          Detail
+                          Details
                           </th>
                         </tr>
                     </thead>
