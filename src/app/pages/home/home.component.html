@@ -167,8 +167,8 @@
                           <th style="width: 10%">
                           Sucest
                           </th>
-                          <th style="width: 10%">
-                          Uniprot
+                          <th style="width: 15%">
+                          Id
                           </th>
                           <th style="width: 40%">
                           Description
@@ -190,7 +190,7 @@
                     <tbody>
                       <tr *ngFor="let item of blastResultList | filterBlastPipe: search | sort:'score'  | paginate: { itemsPerPage: 30, currentPage: p}">
                           <td>{{item.sucestBusca}}</td>
-                          <td>{{item.entryName}}</td>
+                          <td>{{item.uniqueIdentifier}}</td>
                           <td>{{item.proteinName}}</td>
                           <td>{{item.score}}</td>
                           <td>{{item.evalue}}</td>
