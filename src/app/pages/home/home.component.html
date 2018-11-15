@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
               <form>
-                <div class="form-row">
+                <div class="form-row" *ngIf="optionSearch == 'sequence'">
                     <div class="col-12 col-md-12 mb-2 mb-md-0">
                         <input class="form-control form-control" type="email" placeholder="Enter you e-mail" name="emailSearch" [popover]="emailPopover" [(ngModel)]="emailSearch" email pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required/>
                     </div>
@@ -39,7 +39,7 @@
                         <label class="radio-inline search-radio"><input type="radio"  name="idOption" value="id" [(ngModel)]="optionSearch"  [popover]="idPopover">Id</label>
                         <popover-content #idPopover
                           [closeOnMouseOutside]="true"
-                          placement="auto bottom"><span style="color: blue">Sucest, Uniprot or Gene</span>
+                          placement="auto bottom"><span style="color: blue">Sucest Gene (eg. SCSGHR1067F05.g) or Unique Identifier (eg. A0A1D6LM51_MAIZE)</span>
                         </popover-content>
                       </div>
                     </div>
@@ -61,16 +61,16 @@
       </header>
 
       <section class="result">
-          <div class="container" *ngIf="hasResult && blastResultList?.length > 0"> 
+          <div class="container" *ngIf="hasResult && (blastResultList?.length > 0 || sucestList?.length > 0)"> 
               <div class="row">
-                <div class="col-12 col-md-12">
+                <div class="col-md-12 col-xs-12">
                 <ngui-tab
                   selected="js"
                   selected-index-class="selected"
                   selected-contents-class="fadeIn animated">
                   <div class="tabs">
                     <div index="sucest" *ngIf="sucestList?.length > 0 && sucestList[0].gene != 'NOT_FOUND'">Sucest</div>
-                    <div index="blast">Blast </div>
+                    <div index="blast" *ngIf="blastResultList?.length > 0">Blast</div>
                       <a (click)="exportToCsv()"><i class="fa fa-file-excel-o" aria-hidden="true" style="color:green"  [popover]="excelPopover" [popoverOnHover]="true"></i>
                       <popover-content #excelPopover
                       [closeOnMouseOutside]="true"
@@ -82,7 +82,7 @@
                   <div class="tab-contents">
 
                   <!---SUCEST TAB-->
-                    <div contents="sucest">
+                  <div contents="sucest" class="table-responsive">
 
                       <div class="">
                         <div class="content-end">
@@ -96,7 +96,7 @@
                         </div>
                       </div>
 
-                      <table class="table table-striped">
+                      <table class="table">
                         <thead>
                           <tr>
                             <th style="width: 20%">
@@ -148,20 +148,20 @@
 
 
               <!---BLAST TAB-->
-              <div contents="blast">
+              <div contents="blast" class="table-responsive">
                   <div class="">
                       <div class="content-end">
                         <input 
                           type="text" 
                           class="form-control" 
                           placeholder="Search.."
-                          [(ngModel)]="search" />
+                          [(ngModel)]="searchSucest" />
                   
                         <i class="fa fa-search search"></i>
                       </div>
                     </div>
 
-                  <table class="table table-striped">
+                  <table class="table">
                       <thead>
                         <tr>
                           <th style="width: 10%">
@@ -188,7 +188,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of blastResultList | filterBlastPipe: search | sort:'score'  | paginate: { itemsPerPage: 30, currentPage: p}">
+                      <tr *ngFor="let item of blastResultList | filterBlastPipe: searchSucest | sort:'score'  | paginate: { itemsPerPage: 30, currentPage: p}">
                           <td>{{item.sucestBusca}}</td>
                           <td>{{item.uniqueIdentifier}}</td>
                           <td>{{item.proteinName}}</td>

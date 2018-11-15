@@ -6,16 +6,16 @@ export class BlastResult {
     uniqueIdentifier:string;
     entryName:string;
     proteinName:string;
-    organismName:string;
-    organismIdentifier:string;
-    geneName: string;
-    proteinExistence: string;
+    //organismName:string;
+    //organismIdentifier:string;
+    //geneName: string;
+    //proteinExistence: string;
     score:number;
     evalue: string;
-    identities:number;
-    length:number;
-    positives:number;
-    gaps:number;
+    //identities:number;
+    //length:number;
+    //positives:number;
+    //gaps:number;
     sucestBusca: string;
     //sucest: Sucest;
 

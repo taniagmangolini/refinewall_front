@@ -7,11 +7,11 @@ export class FilterSucestByDescriptionGenePipe implements PipeTransform {
 
     transform(items: any[], filter: string): any {
         
-        if (filter === undefined || filter == '' || filter != null ) {
+        if (filter === undefined || filter == '' || filter == null ) {
             return items;
         }
 
-        const search = filter.toLowerCase() ;
+        const search = filter != null ? filter.toLowerCase() : "";
 
         return items.filter(item => {
 

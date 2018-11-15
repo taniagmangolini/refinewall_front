@@ -15,18 +15,19 @@ export class FilterBlastPipe implements PipeTransform {
         return items.filter(item => {
 
             const uniqueIdentifier = item.uniqueIdentifier != null ? item.uniqueIdentifier.toLowerCase() : "";
-            const organismName = item.organismName != null ? item.organismName.toLowerCase() : "";
-            const geneName =  item.geneName != null? item.geneName.toLowerCase() : "";
+           // const organismName = item.organismName != null ? item.organismName.toLowerCase() : "";
+           // const geneName =  item.geneName != null? item.geneName.toLowerCase() : "";
             const entryName = item.entryName != null ? item.entryName.toLowerCase() : "";
             const proteinName = item.proteinName != null? item.proteinName.toLowerCase() : "";
             const sucestBusca = item.sucestBusca != null? item.sucestBusca.toLowerCase() : "";
 
             if (uniqueIdentifier.includes(search) ||
-                organismName.includes(search) ||
+               // organismName.includes(search) ||
                 (sucestBusca != null && sucestBusca.includes(search)) ||
-                (geneName != null && geneName.includes(search))  ||
+               // (geneName != null && geneName.includes(search))  ||
                 entryName.includes(search) ||
-                (proteinName != null && proteinName.includes(search) ) ) {
+                (proteinName != null && proteinName.includes(search) )
+             ) {
                 return item;
             }
         });

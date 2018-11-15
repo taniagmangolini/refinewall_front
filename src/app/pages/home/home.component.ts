@@ -79,9 +79,7 @@ export class HomeComponent implements OnInit {
     } else if (this.optionSearch == "id" && this.sequenceSearch == "") {
       this.errorMsg = 'return "Informe the id!';
 
-    } else if(this.emailSearch == "") {
-      this.errorMsg = 'Inform your e-mail!';
-    }
+    } 
 
     if(this.errorMsg != "") {
       return;
@@ -109,18 +107,17 @@ export class HomeComponent implements OnInit {
 
      console.log("by Id " + this.sequenceSearch);
 
+     this.emailSearch = 'not_necessary_to_process';
+
       this.refineService.getRefineResultByIdEmail(this.sequenceSearch, this.emailSearch)
 
       .subscribe(data => {
-        console.log("entrou 1");
 
         if(data != null && data != undefined) {
 
           if(data.sucests != null && data.sucests.length > 0) {
 
             this.sucestList = data.sucests;
-
-            console.log("entrou 2");
 
             for(let i = 0; i < this.sucestList.length; i++ ) {
 
@@ -152,6 +149,8 @@ export class HomeComponent implements OnInit {
 
         }
 
+      this.emailSearch = "";
+
       this.spinnerService.hide();
 
       }, (error: ErrorMessage) => {
@@ -159,6 +158,8 @@ export class HomeComponent implements OnInit {
         console.log("error= >" + error.message);
 
         this.errorMsg = "Error to process the request: " + error.message;   
+
+        this.emailSearch = "";
 
         this.spinnerService.hide();
 
@@ -168,8 +169,12 @@ export class HomeComponent implements OnInit {
 
   searchBySequenceEmail() {
 
-         console.log("by sequence " + this.sequenceSearch);
+      console.log("by sequence " + this.sequenceSearch);
 
+      if(this.emailSearch == "") {
+        this.errorMsg = 'Inform your e-mail!';
+      }
+      
       this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
       .subscribe(data => {
 
