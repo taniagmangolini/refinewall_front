@@ -81,10 +81,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var BASE_URL = 'https://refinewall.herokuapp.com';
 //const BASE_URL = 'http://localhost:8080';
 var GLOBAL = {
-    // login: BASE_URL + '/login', 
     refineBySequence: BASE_URL + '/refine/sequence/',
     refineById: BASE_URL + '/refine/id/',
-    uniprotById: BASE_URL + '/uniprot'
+    uniprotById: BASE_URL + '/uniprot',
+    sucestBlastBySucestGene: BASE_URL + '/file/blast/',
 };
 var Endpoint = __assign({}, GLOBAL);
 var headers = {
@@ -700,7 +700,7 @@ module.exports = ""
 /***/ "./src/app/pages/home/modal/sucest-modal/sucest-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-box modal-dialog\">\r\n    <div class=\"modal-content\">\r\n        <div class=\"modal-header content-center vertical\">\r\n            <button type=\"button\" class=\"close\" (click)=\"cancel()\" >&times;</button>\r\n            <h4 class=\"modal-title\">Details - {{sucest.gene}}</h4>\r\n        </div>\r\n      \r\n        <div class=\"container modal-body\">\r\n                <li *ngFor=\"let item of sucest.sequences\">\r\n                        <textarea class=\"form-control form-control\" [(ngModel)]=\"item.sequence\" readonly></textarea>\r\n                </li>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"modal-box modal-dialog\">\r\n    <div class=\"modal-content\">\r\n        <div class=\"modal-header content-center vertical\">\r\n            <button type=\"button\" class=\"close\" (click)=\"cancel()\" >&times;</button>\r\n            <h4 class=\"modal-title\">Details - {{sucest.gene}}</h4>\r\n        </div>\r\n      \r\n        <div class=\"container modal-body\">\r\n                <div class=\"card\">\r\n                        <h5 class=\"card-header\">Sequences</h5>\r\n                        <div class=\"card-body\">\r\n                             <li *ngFor=\"let item of sucest.sequences\">\r\n                                <textarea class=\"form-control form-control\" [(ngModel)]=\"item.sequence\" readonly></textarea>\r\n                             </li>\r\n                        </div>\r\n                </div>\r\n   \r\n                <div class=\"card\" *ngIf=\"blastContent != ''\">\r\n                        <h5 class=\"card-header\">Blast</h5>\r\n                        <div class=\"card-body\">\r\n                            <textarea class=\"form-control form-control\" [(ngModel)]=\"blastContent\" readonly></textarea>\r\n                        </div>\r\n                </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -712,6 +712,8 @@ module.exports = "<div class=\"modal-box modal-dialog\">\r\n    <div class=\"mod
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__("./node_modules/ng2-bootstrap-modal/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_Refine_service__ = __webpack_require__("./src/app/services/Refine.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Rx__ = __webpack_require__("./node_modules/rxjs/_esm5/Rx.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -733,14 +735,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var SucestModalComponent = (function (_super) {
     __extends(SucestModalComponent, _super);
-    function SucestModalComponent(modal) {
+    function SucestModalComponent(modal, refineService) {
         var _this = _super.call(this, modal) || this;
         _this.modal = modal;
+        _this.refineService = refineService;
+        _this.blastContent = "";
         return _this;
     }
     SucestModalComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        console.log("sucest = > " + this.sucest.gene);
+        if (this.sucest != null) {
+            console.log("searching = > " + this.sucest.gene);
+            this.refineService.getSucestBlastBySucestGene(this.sucest.gene).subscribe(function (data) {
+                console.log("data = > " + data);
+                if (data != null) {
+                    _this.blastContent = data;
+                }
+            }, function (error) {
+                _this.blastContent = "Blast file not found";
+                console.log("Error = > " + error);
+            });
+        }
     };
     SucestModalComponent.prototype.cancel = function () {
         this.result = false;
@@ -752,7 +772,7 @@ var SucestModalComponent = (function (_super) {
             template: __webpack_require__("./src/app/pages/home/modal/sucest-modal/sucest-modal.component.html"),
             styles: [__webpack_require__("./src/app/pages/home/modal/sucest-modal/sucest-modal.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogService"]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogService"], __WEBPACK_IMPORTED_MODULE_2__services_Refine_service__["a" /* RefineService */]])
     ], SucestModalComponent);
     return SucestModalComponent;
 }(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogComponent"]));
@@ -892,6 +912,9 @@ var RefineService = (function () {
     };
     RefineService.prototype.getUniprotById = function (id) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].uniprotById + "?idProtein=" + id);
+    };
+    RefineService.prototype.getSucestBlastBySucestGene = function (sucestGene) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].sucestBlastBySucestGene + "?sucestGene=" + sucestGene, { responseType: 'text' });
     };
     RefineService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),

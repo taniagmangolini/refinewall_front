@@ -20,9 +20,12 @@ export class RefineService {
   getRefineResultByIdEmail(id: string, email: string): Observable<RefineResult> {
     return this.http.get<RefineResult>(Endpoint.refineById + "?id=" + id + "&email=" + email  );
   }
-
-  getUniprotById(id: string): Observable<UniprotVO> {
+ 
+  getUniprotById(id: string): Observable<UniprotVO>{
     return this.http.get<UniprotVO>(Endpoint.uniprotById + "?idProtein=" + id  );
   }
 
+  getSucestBlastBySucestGene (sucestGene: string ) : Observable< string > {
+    return this.http.get(Endpoint.sucestBlastBySucestGene + "?sucestGene=" + sucestGene,  { responseType: 'text' });
+    } 
 }
