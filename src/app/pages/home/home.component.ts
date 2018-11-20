@@ -175,59 +175,124 @@ export class HomeComponent implements OnInit {
         this.errorMsg = 'Inform your e-mail!';
       }
       
-      this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
+      this.refineService.getBlastJobId(this.sequenceSearch, this.emailSearch)
       .subscribe(data => {
 
-        if(data != null) {
+       let  job : string = data;
 
-          if(data.sucests != null && data.sucests.length > 0 ) {
+        console.log("jobId = >" + job);
 
-            this.sucestList = data.sucests;
+        this.refineService.getRefineResultBySequenceEmailJob(this.sequenceSearch, this.emailSearch,  job)
+        .subscribe(data => {
+          console.log("got RefineResultBySequenceEmailJob");
 
-            console.log( this.sucestList);
-
-            for(let i = 0; i < this.sucestList.length; i++ ) {
-
-              if(this.sucestList[i].blastResults != []) {
-
-                console.log( this.sucestList[i]);
-
-                for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
-
-                  this.blastResultList.push(this.sucestList[i].blastResults[j]);
+          if(data != null) {
+  
+            if(data.sucests != null && data.sucests.length > 0 ) {
+  
+              this.sucestList = data.sucests;
+  
+              console.log( this.sucestList);
+  
+              for(let i = 0; i < this.sucestList.length; i++ ) {
+  
+                if(this.sucestList[i].blastResults != []) {
+  
+                  console.log( this.sucestList[i]);
+  
+                  for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+  
+                    this.blastResultList.push(this.sucestList[i].blastResults[j]);
+                  }
                 }
               }
-            }
-            this.hasResult =  true;
-
-          } else {
-
+              this.hasResult =  true;
+  
+            } else {
+  
+              this.hasResult =  false;
+  
+              this.errorMsg= "Not found!";  
+  
+            } 
+  
+           } else {
+  
             this.hasResult =  false;
+  
+            this.errorMsg= "Not found!";   
+  
+          }
+  
+        this.spinnerService.hide();
+  
+        }, (error: ErrorMessage) => {
+  
+          console.log("error = >" + error.message);
+  
+          this.errorMsg = "Error to process the request: " + error.message;   
+  
+          this.spinnerService.hide();
+  
+        });
 
-            this.errorMsg= "Not found!";  
-
-          } 
-
-         } else {
-
-          this.hasResult =  false;
-
-          this.errorMsg= "Not found!";   
-
-        }
-
-      this.spinnerService.hide();
 
       }, (error: ErrorMessage) => {
 
-        console.log("error = >" + error.message);
-
-        this.errorMsg = "Error to process the request: " + error.message;   
-
+        this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
+        .subscribe(data => {
+  
+          if(data != null) {
+  
+            if(data.sucests != null && data.sucests.length > 0 ) {
+  
+              this.sucestList = data.sucests;
+  
+              console.log( this.sucestList);
+  
+              for(let i = 0; i < this.sucestList.length; i++ ) {
+  
+                if(this.sucestList[i].blastResults != []) {
+  
+                  console.log( this.sucestList[i]);
+  
+                  for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+  
+                    this.blastResultList.push(this.sucestList[i].blastResults[j]);
+                  }
+                }
+              }
+              this.hasResult =  true;
+  
+            } else {
+  
+              this.hasResult =  false;
+  
+              this.errorMsg= "Not found!";  
+  
+            } 
+  
+           } else {
+  
+            this.hasResult =  false;
+  
+            this.errorMsg= "Not found!";   
+  
+          }
+  
         this.spinnerService.hide();
+  
+        }, (error: ErrorMessage) => {
+  
+          console.log("error = >" + error.message);
+  
+          this.errorMsg = "Error to process the request: " + error.message;   
+  
+          this.spinnerService.hide();
+  
+        });
 
       });
-
     
   }
 

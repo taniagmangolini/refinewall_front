@@ -82,9 +82,12 @@ var BASE_URL = 'https://refinewall.herokuapp.com';
 //const BASE_URL = 'http://localhost:8080';
 var GLOBAL = {
     refineBySequence: BASE_URL + '/refine/sequence/',
+    refineBySequenceJob: BASE_URL + '/refine/sequence-job/',
     refineById: BASE_URL + '/refine/id/',
     uniprotById: BASE_URL + '/uniprot',
     sucestBlastBySucestGene: BASE_URL + '/file/blast/',
+    runBlast: BASE_URL + '/blast/',
+    getBlastStatus: BASE_URL + '/blast/status'
 };
 var Endpoint = __assign({}, GLOBAL);
 var headers = {
@@ -617,36 +620,74 @@ var HomeComponent = (function () {
         if (this.emailSearch == "") {
             this.errorMsg = 'Inform your e-mail!';
         }
-        this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)
+        this.refineService.getBlastJobId(this.sequenceSearch, this.emailSearch)
             .subscribe(function (data) {
-            if (data != null) {
-                if (data.sucests != null && data.sucests.length > 0) {
-                    _this.sucestList = data.sucests;
-                    console.log(_this.sucestList);
-                    for (var i = 0; i < _this.sucestList.length; i++) {
-                        if (_this.sucestList[i].blastResults != []) {
-                            console.log(_this.sucestList[i]);
-                            for (var j = 0; j < _this.sucestList[i].blastResults.length; j++) {
-                                _this.blastResultList.push(_this.sucestList[i].blastResults[j]);
+            var job = data;
+            console.log("jobId = >" + job);
+            _this.refineService.getRefineResultBySequenceEmailJob(_this.sequenceSearch, _this.emailSearch, job)
+                .subscribe(function (data) {
+                console.log("got RefineResultBySequenceEmailJob");
+                if (data != null) {
+                    if (data.sucests != null && data.sucests.length > 0) {
+                        _this.sucestList = data.sucests;
+                        console.log(_this.sucestList);
+                        for (var i = 0; i < _this.sucestList.length; i++) {
+                            if (_this.sucestList[i].blastResults != []) {
+                                console.log(_this.sucestList[i]);
+                                for (var j = 0; j < _this.sucestList[i].blastResults.length; j++) {
+                                    _this.blastResultList.push(_this.sucestList[i].blastResults[j]);
+                                }
                             }
                         }
+                        _this.hasResult = true;
                     }
-                    _this.hasResult = true;
+                    else {
+                        _this.hasResult = false;
+                        _this.errorMsg = "Not found!";
+                    }
                 }
                 else {
                     _this.hasResult = false;
                     _this.errorMsg = "Not found!";
                 }
-            }
-            else {
-                _this.hasResult = false;
-                _this.errorMsg = "Not found!";
-            }
-            _this.spinnerService.hide();
+                _this.spinnerService.hide();
+            }, function (error) {
+                console.log("error = >" + error.message);
+                _this.errorMsg = "Error to process the request: " + error.message;
+                _this.spinnerService.hide();
+            });
         }, function (error) {
-            console.log("error = >" + error.message);
-            _this.errorMsg = "Error to process the request: " + error.message;
-            _this.spinnerService.hide();
+            _this.refineService.getRefineResultBySequenceEmail(_this.sequenceSearch, _this.emailSearch)
+                .subscribe(function (data) {
+                if (data != null) {
+                    if (data.sucests != null && data.sucests.length > 0) {
+                        _this.sucestList = data.sucests;
+                        console.log(_this.sucestList);
+                        for (var i = 0; i < _this.sucestList.length; i++) {
+                            if (_this.sucestList[i].blastResults != []) {
+                                console.log(_this.sucestList[i]);
+                                for (var j = 0; j < _this.sucestList[i].blastResults.length; j++) {
+                                    _this.blastResultList.push(_this.sucestList[i].blastResults[j]);
+                                }
+                            }
+                        }
+                        _this.hasResult = true;
+                    }
+                    else {
+                        _this.hasResult = false;
+                        _this.errorMsg = "Not found!";
+                    }
+                }
+                else {
+                    _this.hasResult = false;
+                    _this.errorMsg = "Not found!";
+                }
+                _this.spinnerService.hide();
+            }, function (error) {
+                console.log("error = >" + error.message);
+                _this.errorMsg = "Error to process the request: " + error.message;
+                _this.spinnerService.hide();
+            });
         });
     };
     HomeComponent.prototype.callSucestModal = function (sucestSelected) {
@@ -907,6 +948,9 @@ var RefineService = (function () {
     RefineService.prototype.getRefineResultBySequenceEmail = function (sequence, email) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].refineBySequence + "?sequence=" + sequence + "&email=" + email);
     };
+    RefineService.prototype.getRefineResultBySequenceEmailJob = function (sequence, email, job) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].refineBySequenceJob + "?sequence=" + sequence + "&email=" + email + "&job=" + job);
+    };
     RefineService.prototype.getRefineResultByIdEmail = function (id, email) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].refineById + "?id=" + id + "&email=" + email);
     };
@@ -915,6 +959,9 @@ var RefineService = (function () {
     };
     RefineService.prototype.getSucestBlastBySucestGene = function (sucestGene) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].sucestBlastBySucestGene + "?sucestGene=" + sucestGene, { responseType: 'text' });
+    };
+    RefineService.prototype.getBlastJobId = function (sequence, email) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].runBlast + "?sequence=" + sequence + "&email=" + email, { responseType: 'text' });
     };
     RefineService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
