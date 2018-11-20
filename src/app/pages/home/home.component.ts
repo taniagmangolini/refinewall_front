@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   blastResultList: BlastResult[] = [] ;
   hasResult: boolean = false;
   errorMsg = "";
+  statusBlastJob: string = ""
 
   constructor(
     private modal: DialogService, 
@@ -54,6 +55,8 @@ export class HomeComponent implements OnInit {
     this.hasResult =  false;
 
     this.errorMsg = "";
+
+    this.statusBlastJob = ""
 
   }
 
@@ -169,74 +172,117 @@ export class HomeComponent implements OnInit {
 
   searchBySequenceEmail() {
 
+      this.statusBlastJob = "";
+
       console.log("by sequence " + this.sequenceSearch);
 
       if(this.emailSearch == "") {
         this.errorMsg = 'Inform your e-mail!';
       }
-      
+
+      //run the blast
       this.refineService.getBlastJobId(this.sequenceSearch, this.emailSearch)
       .subscribe(data => {
 
        let  job : string = data;
 
+       let timeout : number = 10000;
+
         console.log("jobId = >" + job);
 
-        this.refineService.getRefineResultBySequenceEmailJob(this.sequenceSearch, this.emailSearch,  job)
-        .subscribe(data => {
-          console.log("got RefineResultBySequenceEmailJob");
+        setTimeout(()=>{  
 
-          if(data != null) {
+          this.refineService.getBlastStatus(job).subscribe(statusJob => {
+
+            this.statusBlastJob =  statusJob;
   
-            if(data.sucests != null && data.sucests.length > 0 ) {
-  
-              this.sucestList = data.sucests;
-  
-              console.log( this.sucestList);
-  
-              for(let i = 0; i < this.sucestList.length; i++ ) {
-  
-                if(this.sucestList[i].blastResults != []) {
-  
-                  console.log( this.sucestList[i]);
-  
-                  for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
-  
-                    this.blastResultList.push(this.sucestList[i].blastResults[j]);
-                  }
-                }
-              }
-              this.hasResult =  true;
-  
+            console.log( "statusJob = >" + statusJob);
+
+            if(statusJob == 'FINISHED') {
+
+              timeout = 0;
+
+              console.log( "proceed without wait");
+
             } else {
-  
-              this.hasResult =  false;
-  
-              this.errorMsg= "Not found!";  
-  
-            } 
-  
-           } else {
-  
-            this.hasResult =  false;
-  
-            this.errorMsg= "Not found!";   
-  
-          }
-  
-        this.spinnerService.hide();
-  
-        }, (error: ErrorMessage) => {
-  
-          console.log("error = >" + error.message);
-  
-          this.errorMsg = "Error to process the request: " + error.message;   
-  
-          this.spinnerService.hide();
-  
-        });
 
+              console.log( " wait to process");
 
+            }
+
+              //get the blast result
+            setTimeout(()=>{ 
+
+              this.refineService.getRefineResultBySequenceEmailJob(this.sequenceSearch, this.emailSearch,  job)
+              .subscribe(data => {
+         
+                console.log("got Refine Result By Sequence Email Job");
+
+                if(data != null) {
+  
+                  if(data.sucests != null && data.sucests.length > 0 ) {
+  
+                    this.sucestList = data.sucests;
+  
+                    console.log( this.sucestList);
+
+                    for(let i = 0; i < this.sucestList.length; i++ ) {
+  
+                      if(this.sucestList[i].blastResults != []) {
+  
+                        console.log( this.sucestList[i]);
+  
+                        for(let j = 0; j < this.sucestList[i].blastResults.length; j++ ) {
+  
+                          this.blastResultList.push(this.sucestList[i].blastResults[j]);
+                        }
+                      }
+                    }
+                    
+                    this.hasResult =  true;
+  
+                } else {
+  
+                  this.hasResult =  false;
+  
+                  this.errorMsg= "Not found!";  
+  
+                } 
+  
+              } else {
+  
+                this.hasResult =  false;
+  
+                this.errorMsg= "Not found!";   
+  
+              }
+  
+                this.spinnerService.hide();
+  
+              }, (error: ErrorMessage) => {
+  
+                console.log("error = >" + error.message);
+            
+                this.errorMsg = "Error to process the request: " + error.message;   
+  
+                this.spinnerService.hide();
+  
+              });
+            
+            }, timeout ); 
+
+          }, (error: ErrorMessage) => {
+      
+            console.log("error to get job blast status >" + error.message);
+    
+            this.errorMsg = "Error to get the blast status " + error.message;   
+    
+            this.spinnerService.hide();
+    
+          });
+
+        }, timeout)
+  
       }, (error: ErrorMessage) => {
 
         this.refineService.getRefineResultBySequenceEmail(this.sequenceSearch, this.emailSearch)

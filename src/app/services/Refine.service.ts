@@ -36,4 +36,8 @@ export class RefineService {
   getBlastJobId(sequence: string, email: string ) : Observable< string > {
     return this.http.get(Endpoint.runBlast + "?sequence=" + sequence + "&email=" + email  , { responseType: 'text' });
   } 
+
+  getBlastStatus(jobId: string ) : Observable< string > {
+    return this.http.get(Endpoint.getBlastStatus + "?jobId=" + jobId  , { responseType: 'text' });
+  } 
 }

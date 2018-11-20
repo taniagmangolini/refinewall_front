@@ -12,7 +12,7 @@ const GLOBAL = {
   uniprotById: BASE_URL + '/uniprot',
   sucestBlastBySucestGene: BASE_URL + '/file/blast/',
   runBlast: BASE_URL + '/blast/',
-  getBlastStatus: BASE_URL + '/blast/status'
+  getBlastStatus: BASE_URL + '/blast/status/'
 
 };
 

@@ -87,7 +87,7 @@ var GLOBAL = {
     uniprotById: BASE_URL + '/uniprot',
     sucestBlastBySucestGene: BASE_URL + '/file/blast/',
     runBlast: BASE_URL + '/blast/',
-    getBlastStatus: BASE_URL + '/blast/status'
+    getBlastStatus: BASE_URL + '/blast/status/'
 };
 var Endpoint = __assign({}, GLOBAL);
 var headers = {
@@ -531,6 +531,7 @@ var HomeComponent = (function () {
         this.blastResultList = [];
         this.hasResult = false;
         this.errorMsg = "";
+        this.statusBlastJob = "";
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.clearSearch();
@@ -543,6 +544,7 @@ var HomeComponent = (function () {
         this.optionSearch = "";
         this.hasResult = false;
         this.errorMsg = "";
+        this.statusBlastJob = "";
     };
     HomeComponent.prototype.refineIdOrSequence = function () {
         this.blastResultList = [];
@@ -616,46 +618,69 @@ var HomeComponent = (function () {
     ;
     HomeComponent.prototype.searchBySequenceEmail = function () {
         var _this = this;
+        this.statusBlastJob = "";
         console.log("by sequence " + this.sequenceSearch);
         if (this.emailSearch == "") {
             this.errorMsg = 'Inform your e-mail!';
         }
+        //run the blast
         this.refineService.getBlastJobId(this.sequenceSearch, this.emailSearch)
             .subscribe(function (data) {
             var job = data;
+            var timeout = 10000;
             console.log("jobId = >" + job);
-            _this.refineService.getRefineResultBySequenceEmailJob(_this.sequenceSearch, _this.emailSearch, job)
-                .subscribe(function (data) {
-                console.log("got RefineResultBySequenceEmailJob");
-                if (data != null) {
-                    if (data.sucests != null && data.sucests.length > 0) {
-                        _this.sucestList = data.sucests;
-                        console.log(_this.sucestList);
-                        for (var i = 0; i < _this.sucestList.length; i++) {
-                            if (_this.sucestList[i].blastResults != []) {
-                                console.log(_this.sucestList[i]);
-                                for (var j = 0; j < _this.sucestList[i].blastResults.length; j++) {
-                                    _this.blastResultList.push(_this.sucestList[i].blastResults[j]);
-                                }
-                            }
-                        }
-                        _this.hasResult = true;
+            setTimeout(function () {
+                _this.refineService.getBlastStatus(job).subscribe(function (statusJob) {
+                    _this.statusBlastJob = statusJob;
+                    console.log("statusJob = >" + statusJob);
+                    if (statusJob == 'FINISHED') {
+                        timeout = 0;
+                        console.log("proceed without wait");
                     }
                     else {
-                        _this.hasResult = false;
-                        _this.errorMsg = "Not found!";
+                        console.log(" wait to process");
                     }
-                }
-                else {
-                    _this.hasResult = false;
-                    _this.errorMsg = "Not found!";
-                }
-                _this.spinnerService.hide();
-            }, function (error) {
-                console.log("error = >" + error.message);
-                _this.errorMsg = "Error to process the request: " + error.message;
-                _this.spinnerService.hide();
-            });
+                    //get the blast result
+                    setTimeout(function () {
+                        _this.refineService.getRefineResultBySequenceEmailJob(_this.sequenceSearch, _this.emailSearch, job)
+                            .subscribe(function (data) {
+                            console.log("got Refine Result By Sequence Email Job");
+                            if (data != null) {
+                                if (data.sucests != null && data.sucests.length > 0) {
+                                    _this.sucestList = data.sucests;
+                                    console.log(_this.sucestList);
+                                    for (var i = 0; i < _this.sucestList.length; i++) {
+                                        if (_this.sucestList[i].blastResults != []) {
+                                            console.log(_this.sucestList[i]);
+                                            for (var j = 0; j < _this.sucestList[i].blastResults.length; j++) {
+                                                _this.blastResultList.push(_this.sucestList[i].blastResults[j]);
+                                            }
+                                        }
+                                    }
+                                    _this.hasResult = true;
+                                }
+                                else {
+                                    _this.hasResult = false;
+                                    _this.errorMsg = "Not found!";
+                                }
+                            }
+                            else {
+                                _this.hasResult = false;
+                                _this.errorMsg = "Not found!";
+                            }
+                            _this.spinnerService.hide();
+                        }, function (error) {
+                            console.log("error = >" + error.message);
+                            _this.errorMsg = "Error to process the request: " + error.message;
+                            _this.spinnerService.hide();
+                        });
+                    }, timeout);
+                }, function (error) {
+                    console.log("error to get job blast status >" + error.message);
+                    _this.errorMsg = "Error to get the blast status " + error.message;
+                    _this.spinnerService.hide();
+                });
+            }, timeout);
         }, function (error) {
             _this.refineService.getRefineResultBySequenceEmail(_this.sequenceSearch, _this.emailSearch)
                 .subscribe(function (data) {
@@ -962,6 +987,9 @@ var RefineService = (function () {
     };
     RefineService.prototype.getBlastJobId = function (sequence, email) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].runBlast + "?sequence=" + sequence + "&email=" + email, { responseType: 'text' });
+    };
+    RefineService.prototype.getBlastStatus = function (jobId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].getBlastStatus + "?jobId=" + jobId, { responseType: 'text' });
     };
     RefineService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
