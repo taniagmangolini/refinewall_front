@@ -38,6 +38,13 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.clearSearch();
+
+    console.log("calling service just to test it = >");
+    this.refineService.getBlastStatus("1").subscribe(statusJob => {
+      console.log(" service response just to test it = >");
+    }, (error: ErrorMessage) => {
+     console.log(" service  error just to test it");
+   });
   }
 
   clearSearch() {
@@ -186,7 +193,7 @@ export class HomeComponent implements OnInit {
 
        let  job : string = data;
 
-       let timeout : number = 10000;
+       let timeout : number = 15000;
 
         console.log("jobId = >" + job);
 

@@ -535,6 +535,12 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.clearSearch();
+        console.log("calling service just to test it = >");
+        this.refineService.getBlastStatus("1").subscribe(function (statusJob) {
+            console.log(" service response just to test it = >");
+        }, function (error) {
+            console.log(" service  error just to test it");
+        });
     };
     HomeComponent.prototype.clearSearch = function () {
         this.sucestList = [];
@@ -627,7 +633,7 @@ var HomeComponent = (function () {
         this.refineService.getBlastJobId(this.sequenceSearch, this.emailSearch)
             .subscribe(function (data) {
             var job = data;
-            var timeout = 10000;
+            var timeout = 15000;
             console.log("jobId = >" + job);
             setTimeout(function () {
                 _this.refineService.getBlastStatus(job).subscribe(function (statusJob) {
