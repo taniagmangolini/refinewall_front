@@ -40,4 +40,8 @@ export class RefineService {
   getBlastStatus(jobId: string ) : Observable< string > {
     return this.http.get(Endpoint.getBlastStatus + "?jobId=" + jobId  , { responseType: 'text' });
   } 
+
+  getRefineIsON( ) : Observable< string > {
+    return this.http.get(Endpoint.refineIsOn , { responseType: 'text' });
+  } 
 }

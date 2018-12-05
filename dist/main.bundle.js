@@ -81,6 +81,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 var BASE_URL = 'https://refinewall.herokuapp.com';
 //const BASE_URL = 'http://localhost:8080';
 var GLOBAL = {
+    refineIsOn: BASE_URL + '/refine/',
     refineBySequence: BASE_URL + '/refine/sequence/',
     refineBySequenceJob: BASE_URL + '/refine/sequence-job/',
     refineById: BASE_URL + '/refine/id/',
@@ -535,11 +536,14 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.clearSearch();
-        console.log("calling service just to test it = >");
-        this.refineService.getBlastStatus("1").subscribe(function (statusJob) {
-            console.log(" service response just to test it = >");
+        this.checkIfRefineIsON();
+    };
+    HomeComponent.prototype.checkIfRefineIsON = function () {
+        console.log("checking if refine is ON =>");
+        this.refineService.getRefineIsON().subscribe(function (statusJob) {
+            console.log(statusJob);
         }, function (error) {
-            console.log(" service  error just to test it");
+            console.log(" Refine is NOT ON => " + error);
         });
     };
     HomeComponent.prototype.clearSearch = function () {
@@ -553,6 +557,8 @@ var HomeComponent = (function () {
         this.statusBlastJob = "";
     };
     HomeComponent.prototype.refineIdOrSequence = function () {
+        var _this = this;
+        this.checkIfRefineIsON();
         this.blastResultList = [];
         this.sucestList = [];
         this.hasResult = false;
@@ -572,16 +578,16 @@ var HomeComponent = (function () {
         if (this.errorMsg != "") {
             return;
         }
+        //waiting some seconds to heroku start the server
         this.spinnerService.show();
-        if (this.optionSearch == "id") {
-            this.searchByIdEmail();
-        }
-        else {
-            this.searchBySequenceEmail();
-        }
-        //console.log("blastResultList " + (this.blastResultList == null));
-        // console.log("hasresult " + this.hasResult);
-        // console.log("error " + this.errorMsg);
+        setTimeout(function () {
+            if (_this.optionSearch == "id") {
+                _this.searchByIdEmail();
+            }
+            else {
+                _this.searchBySequenceEmail();
+            }
+        }, 5000);
     };
     ;
     HomeComponent.prototype.searchByIdEmail = function () {
@@ -996,6 +1002,9 @@ var RefineService = (function () {
     };
     RefineService.prototype.getBlastStatus = function (jobId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].getBlastStatus + "?jobId=" + jobId, { responseType: 'text' });
+    };
+    RefineService.prototype.getRefineIsON = function () {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__app_endpoints__["a" /* Endpoint */].refineIsOn, { responseType: 'text' });
     };
     RefineService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),

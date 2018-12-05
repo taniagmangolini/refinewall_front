@@ -39,11 +39,21 @@ export class HomeComponent implements OnInit {
 
     this.clearSearch();
 
-    console.log("calling service just to test it = >");
-    this.refineService.getBlastStatus("1").subscribe(statusJob => {
-      console.log(" service response just to test it = >");
+    this.checkIfRefineIsON();
+
+  }
+
+  checkIfRefineIsON() {
+
+    console.log("checking if refine is ON =>");
+
+    this.refineService.getRefineIsON().subscribe(statusJob => {
+
+      console.log(statusJob);
+
     }, (error: ErrorMessage) => {
-     console.log(" service  error just to test it");
+
+     console.log(" Refine is NOT ON => " + error);
    });
   }
 
@@ -68,6 +78,8 @@ export class HomeComponent implements OnInit {
   }
 
   refineIdOrSequence() {
+
+    this.checkIfRefineIsON() ;
 
     this.blastResultList = [] ;
 
@@ -95,22 +107,21 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    //waiting some seconds to heroku start the server
     this.spinnerService.show();
+    
+    setTimeout(()=> {
 
-    if (this.optionSearch == "id") {
+      if (this.optionSearch == "id") {
 
-      this.searchByIdEmail();
+        this.searchByIdEmail();
 
-    } else {
+      } else {
 
-      this.searchBySequenceEmail();
-    }
+        this.searchBySequenceEmail();
+      }
 
-    //console.log("blastResultList " + (this.blastResultList == null));
-   // console.log("hasresult " + this.hasResult);
-   // console.log("error " + this.errorMsg);
-
-
+    }, 5000);
   };
 
   searchByIdEmail() {
